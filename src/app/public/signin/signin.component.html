@@ -1,0 +1,28 @@
+<div class="container">
+  <br/>
+  <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="login-box well">
+          <legend>Sign In</legend>
+          <form (ngSubmit)='loginUser()' [formGroup]='loginForm' novalidate class="form" name="form">
+              <input formControlName="email" type="text" class="form-control" placeholder="Enter Email" name="email"/>
+              <div class="alert alert-danger" *ngIf="loginForm.get('email').hasError('required')&& loginForm.get('email').touched">
+                Email is required 
+              </div><br/>
+              <input formControlName="password" type="password" class="form-control" placeholder="Enter Password" name="password"/>
+              <div class="alert alert-danger" *ngIf="loginForm.get('password').hasError('required')&& loginForm.get('password').touched">
+                Password is required and should be less than 10 characters
+              </div>
+              <br/>
+              <button [disabled]="loginForm.invalid" class="btn btn-default">Login</button>
+              <span class='text-center'><a class="text-sm">Forgot Password?</a></span>
+              <div class="form-group">
+                  <p class="text-center m-t-xs text-sm">Do not have an account?</p> 
+                  <a routerLink="/sign-up" class="btn btn-default btn-block m-t-md">Create an account</a>
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+</div>
