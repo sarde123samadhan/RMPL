@@ -16,8 +16,15 @@ export class AuthService {
       console.log(result);
       if(result){
         localStorage.setItem("token",result['token']);
+        localStorage.setItem("role",result['role']);
       }
       return result;
     }));
+  }
+  autheriseAdmin(){
+    if(localStorage.getItem('role')=='admin')
+      return true;
+    else
+      return false;
   }
 }

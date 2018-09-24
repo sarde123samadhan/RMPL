@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit {
      console.log(this.loginForm.value);
      this.authService.singIn(this.loginForm.value.email,this.loginForm.value.password).subscribe(result=>{
       if(result['success']==true){
-        this.router.navigate(['home']);
+        this.router.navigate(['admin']);
       }else{
         this.router.navigate(['']);
       }

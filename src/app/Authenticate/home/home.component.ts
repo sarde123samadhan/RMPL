@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {AuthGuardGuard} from '../../auth/auth-guard.guard';
+import {ActivatedRoute, Router} from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,13 +18,13 @@ export class HomeComponent implements OnInit {
   categoryName:string;
   url=environment.backendURL;
   categories:any;
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient,private authGuard:AuthGuardGuard,private route:ActivatedRoute,private router:Router) { }
 
   ngOnInit() {
+    console.log("Activated Route:",this.route.snapshot);
     this.httpClient.get(this.url+'/display-product').subscribe(res=>{
       let response:any;
       response=res;
-      console.log("Res:",response);
       let resultArray=response.result;
       for(let i=0;i<resultArray.length;i++){
         this.cardTitle=resultArray[i].name;
@@ -43,6 +46,7 @@ export class HomeComponent implements OnInit {
 
   logout(){
     localStorage.removeItem('token');
+    this.router.navigate(['/sign-in']);
   }
   
 }

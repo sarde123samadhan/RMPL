@@ -11,4 +11,5 @@ export class User{
     country:string;
     zip:number;
     contact:number;
+    role:string
 }

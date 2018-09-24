@@ -1,0 +1,102 @@
+<input [(ngModel)]="searchText" placeholder="search text goes here" type="text">
+<a href="javascript:void(0)" (click)="insertProductForm()">Insert</a>
+<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+  <thead>
+  <tr>
+      <th style="width: 10%">
+          <mfDefaultSorter by="name">ID</mfDefaultSorter>
+      </th>
+      <th style="width: 10%">
+          <mfDefaultSorter by="email">Category</mfDefaultSorter>
+      </th>
+      <th style="width: 10%">
+          <mfDefaultSorter by="age">Name</mfDefaultSorter>
+      </th>
+      <th style="width: 10%">
+          <mfDefaultSorter by="city">Price</mfDefaultSorter>
+      </th>
+      <th style="width: 60%">
+        <mfDefaultSorter by="city">Description</mfDefaultSorter>
+    </th>
+  </tr>
+  </thead> 
+  <tbody>  
+          <tr *ngIf="(productDetails| filter:searchText).length===0">
+              <td class="text-center">No Records Found</td>
+          </tr>
+          <ng-container *ngIf="(productDetails| filter:searchText).length!=0">
+      <tr *ngFor="let product of productDetails| filter:searchText; let i=index" (click)="rowClick(product)">
+          <td>{{i+1}}</td>
+          <td>{{product.product_docs[0].name}}</td>
+          <td>{{product.name}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.description}}</td>
+      </tr>
+          </ng-container>
+  </tbody>
+  <tfoot>
+  <tr>
+      <td colspan="4">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+      </td>
+  </tr>
+  </tfoot>
+</table>
+<div class="backdrop" [ngStyle]="{'display':display}"></div>
+<!-- modal -->
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+  <!-- modal-dialog -->
+  <div class="modal-dialog" role="document">
+    <!-- modal-content -->
+    <div class="modal-content">
+      <!-- modal-header -->
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span aria-hidden="true">&times;</span></button>
+        <!-- <h4 class="modal-title">Login</h4> -->
+      </div>
+
+      <!-- modal-body -->
+      <div class="modal-body">
+          <div class="container">
+              <!-- <div class="col-md-4"></div> -->
+              <div class="col-md-4">
+                  <div class="login-box well">
+                      <legend>Product Operation</legend>
+                      <form [formGroup]="productForm" >
+                          <div>
+                              <input type="hidden" class="textbox" name="objectId" placeholder="Object Id" formControlName="id">
+                          </div>
+                          <div>
+                              <label>Name:</label>
+                              <input type="text" class="textbox" name="name" placeholder="Name" formControlName="name">
+                          </div>      
+                          <div>
+                              <label>Price:</label>
+                              <input type="text" class="textbox" name="price" placeholder="Price" formControlName="price">
+                          </div>
+                          <div>
+                              <label>Description:</label>
+                              <input type="text" class="textbox" name="description" placeholder="Description" formControlName="description">
+                          </div>
+                          <div *ngIf="insertFlag">
+                                <label>Category Id:</label>
+                                <input type="text" class="textbox" name="categoryId" placeholder="Id" formControlName="categoryId">
+                            </div>
+                          <div>
+                              <input type="submit" class="btn btn-info btn-lg" value="Update" *ngIf = "updateFlag" (click)="updateProduct(productForm.value)" >
+                              <input type="submit" class="btn btn-info btn-lg" value="Delete" *ngIf = "deleteFlag" (click)="deleteProduct(productForm.value)">
+                              <input type="submit" class="btn btn-info btn-lg" value="Insert" *ngIf = "insertFlag" (click)="insertProduct(productForm.value)">
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- modal-footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeModalDialog()" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
